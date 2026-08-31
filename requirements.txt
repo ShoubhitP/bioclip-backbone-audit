@@ -1,0 +1,11 @@
+torch
+torchvision
+open_clip_torch
+huggingface_hub
+numpy
+scipy
+pandas
+scikit-learn
+matplotlib
+tqdm
+pyyaml
