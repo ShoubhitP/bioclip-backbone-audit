@@ -5,11 +5,6 @@ from src.data import load_flowers102
 from src.features import extract_preprojection_features
 from src.fewshot import sample_support_indices
 
-
-# ---------------------------------------------------------
-# 1. Smoke-test pre-projection feature extraction
-# ---------------------------------------------------------
-
 MODEL_ID = "hf-hub:laion/CLIP-ViT-L-14-laion2B-s32B-b82K"
 # To test BioCLIP instead:
 # MODEL_ID = "hf-hub:imageomics/bioclip-2"
@@ -27,20 +22,10 @@ print(
     torch.linalg.vector_norm(features, dim=1),
 )
 
-
-# ---------------------------------------------------------
-# 2. Load Flowers102
-# ---------------------------------------------------------
-
 support_pool, test_dataset = load_flowers102("data")
 
 print("support_pool length:", len(support_pool))
 print("test_dataset length:", len(test_dataset))
-
-
-# ---------------------------------------------------------
-# 3. Verify support-pool class distribution
-# ---------------------------------------------------------
 
 labels = [label for _, label in support_pool]
 
@@ -50,11 +35,6 @@ print("num classes:", len(counts))
 print("min per class:", min(counts.values()))
 print("max per class:", max(counts.values()))
 
-
-# ---------------------------------------------------------
-# 4. Test reproducible few-shot support sampling
-# ---------------------------------------------------------
-
 a = sample_support_indices(labels, k=5, seed=42)
 b = sample_support_indices(labels, k=5, seed=42)
 c = sample_support_indices(labels, k=5, seed=43)
@@ -62,11 +42,6 @@ c = sample_support_indices(labels, k=5, seed=43)
 print("number selected:", len(a))
 print("same seed identical:", a == b)
 print("different seed identical:", a == c)
-
-
-# ---------------------------------------------------------
-# 5. Verify exactly k examples were selected per class
-# ---------------------------------------------------------
 
 selected_labels = [labels[i] for i in a]
 selected_counts = Counter(selected_labels)
